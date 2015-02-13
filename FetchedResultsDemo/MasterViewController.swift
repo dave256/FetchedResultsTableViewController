@@ -49,7 +49,7 @@ class MasterViewController: FetchedResultsTableViewController, NSFetchedResultsC
 
         // closure for displaying a cell
         configureCellClosure = { (cell, indexPath, object) in
-            let position = object.valueForKey("position") as Int
+            let position = object.valueForKey("position") as! Int
             cell.textLabel!.text = object.valueForKey("timeStamp")!.description + " - \(position)"
         }
 
@@ -99,7 +99,7 @@ class MasterViewController: FetchedResultsTableViewController, NSFetchedResultsC
     func insertNewObject(sender: AnyObject) {
         if let context = self.fetchedResultsController?.managedObjectContext {
             if let entity = self.fetchedResultsController?.fetchRequest.entity {
-                let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as NSManagedObject
+                let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! NSManagedObject
 
                 // If appropriate, configure the new managed object.
                 // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
@@ -124,8 +124,8 @@ class MasterViewController: FetchedResultsTableViewController, NSFetchedResultsC
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
-                let object = self.fetchedResultsController?.objectAtIndexPath(indexPath) as NSManagedObject
-                let controller = (segue.destinationViewController as UINavigationController).topViewController as DetailViewController
+                let object = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! NSManagedObject
+                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
                 controller.detailItem = object
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true

@@ -96,18 +96,18 @@ public class FetchedResultsTableViewController: UITableViewController, NSFetched
     }
 
     public override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController?.sections![section] as NSFetchedResultsSectionInfo
+        let sectionInfo = self.fetchedResultsController?.sections![section] as! NSFetchedResultsSectionInfo
         return sectionInfo.numberOfObjects
     }
 
     public func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
-        let object = self.fetchedResultsController?.objectAtIndexPath(indexPath) as NSManagedObject
+        let object = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! NSManagedObject
         self.configureCellClosure?(cell: cell, indexPath: indexPath, object: object)
     }
 
     public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // if you get a crash here about unwrapping optional, you forget to set the cellReuseIdentifier in your subclass of CoreDataTableViewController
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
         self.configureCell(cell, atIndexPath: indexPath)
@@ -125,7 +125,7 @@ public class FetchedResultsTableViewController: UITableViewController, NSFetched
     public override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             if let context = self.fetchedResultsController?.managedObjectContext {
-                let object = self.fetchedResultsController?.objectAtIndexPath(indexPath) as NSManagedObject
+                let object = self.fetchedResultsController?.objectAtIndexPath(indexPath) as! NSManagedObject
                 willDeleteObjectClosure?(object: object)
                 context.deleteObject(object)
             }
@@ -142,12 +142,12 @@ public class FetchedResultsTableViewController: UITableViewController, NSFetched
         userDrivenDataModelChange = true
 
         if fetchedResultsController != nil {
-            var items = self.fetchedResultsController!.fetchedObjects as [NSManagedObject]
+            var items = self.fetchedResultsController!.fetchedObjects as! [NSManagedObject]
             // convert to NSMutableArray so we can re-order
             // toll free bridging from Swift array to NSArray (if items are NSObject subclasses which they are)
-            var itemsArray = (items as NSArray).mutableCopy() as NSMutableArray
+            var itemsArray = (items as NSArray).mutableCopy() as! NSMutableArray
             // get the item
-            let item = self.fetchedResultsController!.objectAtIndexPath(fromIndexPath) as NSManagedObject
+            let item = self.fetchedResultsController!.objectAtIndexPath(fromIndexPath) as! NSManagedObject
             // remove it from its old spot
             itemsArray.removeObject(item)
             // and insert it at its new spot
